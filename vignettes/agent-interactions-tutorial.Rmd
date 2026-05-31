@@ -1,0 +1,466 @@
+---
+title: "Agent Interactions Tutorial"
+output: rmarkdown::html_vignette
+bibliography: references.bib
+vignette: >
+  %\VignetteIndexEntry{Agent Interactions Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 4
+)
+```
+
+```{r load-package}
+library(emergenceModelR)
+```
+
+## Purpose
+
+This tutorial introduces `simulate_agent_interactions()`. The function creates a simplified agent-based model showing how local interactions among agents can produce group-level patterns.
+
+In this tutorial, you will learn how to:
+
+- run a basic agent interaction simulation;
+- inspect the output;
+- summarize group movement;
+- compare interaction radius settings;
+- compare alignment settings;
+- use `measure_emergence()` to summarize outputs;
+- interpret agent-based emergence responsibly.
+
+## What the function represents
+
+An agent-based model represents a system as a collection of individual agents. Each agent follows simple rules and interacts with nearby agents or with its environment.
+
+In `simulate_agent_interactions()`, agents move in a two-dimensional space. Their movement is influenced by local interaction and random variation.
+
+The model is intentionally simple. It does not represent real animal behavior, social behavior, cognition, or ecological dynamics in detail. Its purpose is to illustrate one core idea:
+
+> Collective behavior can arise from repeated local interactions among individual agents.
+
+## Main arguments
+
+| Argument | Meaning |
+|---|---|
+| `n_agents` | Number of agents in the simulation |
+| `steps` | Number of time steps |
+| `interaction_radius` | Distance within which agents can influence one another |
+| `alignment` | Strength of movement alignment with nearby agents |
+| `seed` | Random seed for reproducible results |
+
+The two most important parameters are `interaction_radius` and `alignment`.
+
+`interaction_radius` controls how far agents can influence each other.  
+`alignment` controls how strongly agents adjust movement in response to nearby agents.
+
+## Basic simulation
+
+Start with a simple simulation.
+
+```{r agents-basic}
+agents <- simulate_agent_interactions(
+  n_agents = 40,
+  steps = 80,
+  interaction_radius = 0.15,
+  alignment = 0.05,
+  seed = 3
+)
+
+head(agents)
+```
+
+## Inspect the output
+
+The output is a data frame. Each row represents one agent at one time step.
+
+```{r agents-structure}
+str(agents)
+```
+
+The main columns usually include:
+
+| Column | Meaning |
+|---|---|
+| `step` | Time step |
+| `agent` | Agent identifier |
+| `x` | Horizontal position |
+| `y` | Vertical position |
+
+This structure allows you to examine individual movement or summarize group-level behavior.
+
+## Summarize the group center
+
+One simple way to summarize collective movement is to calculate the average position of all agents at each time step.
+
+```{r agents-center}
+center <- aggregate(
+  cbind(x, y) ~ step,
+  data = agents,
+  FUN = mean
+)
+
+head(center)
+```
+
+## Plot group movement
+
+Plot the average `x` position over time.
+
+```{r agents-center-x}
+plot_emergence_sim(
+  center,
+  x = "step",
+  y = "x",
+  type = "line"
+)
+```
+
+Plot the average `y` position over time.
+
+```{r agents-center-y}
+plot_emergence_sim(
+  center,
+  x = "step",
+  y = "y",
+  type = "line"
+)
+```
+
+## Interpretation
+
+The group center changes over time because individual agents are moving and interacting. No single agent controls the group-level trajectory.
+
+This illustrates the basic logic of agent-based emergence:
+
+> Group-level patterns can arise from many individual agents following local rules.
+
+The group center is only one summary. It does not capture every detail of agent behavior, but it provides a useful starting point.
+
+## Examine one agent
+
+You can also inspect the movement of a single agent.
+
+```{r one-agent}
+one_agent <- subset(
+  agents,
+  agent == unique(agents$agent)[1]
+)
+
+head(one_agent)
+```
+
+```{r one-agent-plot}
+plot_emergence_sim(
+  one_agent,
+  x = "step",
+  y = "x",
+  type = "line"
+)
+```
+
+## Interpretation of individual movement
+
+A single agent’s trajectory may look different from the group-level summary. This is important because agent-based models allow you to examine both levels:
+
+- individual behavior;
+- collective pattern.
+
+Emergence appears when the group-level pattern cannot be understood simply by looking at one agent in isolation.
+
+## Compare interaction radius
+
+The `interaction_radius` parameter controls the distance within which agents can influence one another.
+
+A small radius means agents respond only to very close neighbors.  
+A larger radius means agents can be influenced by more nearby agents.
+
+```{r agents-radius}
+small_radius <- simulate_agent_interactions(
+  n_agents = 40,
+  steps = 80,
+  interaction_radius = 0.05,
+  alignment = 0.05,
+  seed = 3
+)
+
+large_radius <- simulate_agent_interactions(
+  n_agents = 40,
+  steps = 80,
+  interaction_radius = 0.30,
+  alignment = 0.05,
+  seed = 3
+)
+```
+
+## Summarize radius comparison
+
+```{r agents-radius-metrics}
+rbind(
+  small_radius = measure_emergence(
+    small_radius,
+    value_col = "x",
+    time_col = "step"
+  ),
+  large_radius = measure_emergence(
+    large_radius,
+    value_col = "x",
+    time_col = "step"
+  )
+)
+```
+
+## Plot radius comparison using group centers
+
+```{r agents-radius-centers}
+small_center <- aggregate(
+  cbind(x, y) ~ step,
+  data = small_radius,
+  FUN = mean
+)
+
+large_center <- aggregate(
+  cbind(x, y) ~ step,
+  data = large_radius,
+  FUN = mean
+)
+
+head(small_center)
+head(large_center)
+```
+
+```{r agents-small-radius-plot}
+plot_emergence_sim(
+  small_center,
+  x = "step",
+  y = "x",
+  type = "line"
+)
+```
+
+```{r agents-large-radius-plot}
+plot_emergence_sim(
+  large_center,
+  x = "step",
+  y = "x",
+  type = "line"
+)
+```
+
+## Interpretation of interaction radius
+
+Interaction radius changes the scale of local influence. When the radius is small, agents interact with fewer neighbors. When the radius is larger, agents can be influenced by a broader local neighborhood.
+
+This illustrates an important principle:
+
+> The scale of local interaction can shape the scale of collective behavior.
+
+The metrics help summarize the difference, but the plots are also important.
+
+## Compare alignment settings
+
+The `alignment` parameter controls how strongly agents adjust movement based on nearby agents.
+
+A low alignment setting means agents remain more independent.  
+A higher alignment setting means nearby agents influence one another more strongly.
+
+```{r agents-alignment}
+weak_alignment <- simulate_agent_interactions(
+  n_agents = 40,
+  steps = 80,
+  interaction_radius = 0.15,
+  alignment = 0.01,
+  seed = 3
+)
+
+strong_alignment <- simulate_agent_interactions(
+  n_agents = 40,
+  steps = 80,
+  interaction_radius = 0.15,
+  alignment = 0.15,
+  seed = 3
+)
+```
+
+## Summarize alignment comparison
+
+```{r agents-alignment-metrics}
+rbind(
+  weak_alignment = measure_emergence(
+    weak_alignment,
+    value_col = "x",
+    time_col = "step"
+  ),
+  strong_alignment = measure_emergence(
+    strong_alignment,
+    value_col = "x",
+    time_col = "step"
+  )
+)
+```
+
+## Plot alignment comparison using group centers
+
+```{r agents-alignment-centers}
+weak_center <- aggregate(
+  cbind(x, y) ~ step,
+  data = weak_alignment,
+  FUN = mean
+)
+
+strong_center <- aggregate(
+  cbind(x, y) ~ step,
+  data = strong_alignment,
+  FUN = mean
+)
+
+head(weak_center)
+head(strong_center)
+```
+
+```{r agents-weak-alignment-plot}
+plot_emergence_sim(
+  weak_center,
+  x = "step",
+  y = "x",
+  type = "line"
+)
+```
+
+```{r agents-strong-alignment-plot}
+plot_emergence_sim(
+  strong_center,
+  x = "step",
+  y = "x",
+  type = "line"
+)
+```
+
+## Interpretation of alignment
+
+Alignment affects how strongly agents coordinate with nearby agents. Stronger alignment may produce more coordinated group movement, depending on the other parameters.
+
+However, stronger alignment does not automatically mean “more emergence.” It only means the local interaction rule has changed. The result must be interpreted using both the plots and the metrics.
+
+## Compare all runs
+
+It can be useful to summarize all runs in one table.
+
+```{r agents-all-metrics}
+summary_table <- rbind(
+  baseline = measure_emergence(
+    agents,
+    value_col = "x",
+    time_col = "step"
+  ),
+  small_radius = measure_emergence(
+    small_radius,
+    value_col = "x",
+    time_col = "step"
+  ),
+  large_radius = measure_emergence(
+    large_radius,
+    value_col = "x",
+    time_col = "step"
+  ),
+  weak_alignment = measure_emergence(
+    weak_alignment,
+    value_col = "x",
+    time_col = "step"
+  ),
+  strong_alignment = measure_emergence(
+    strong_alignment,
+    value_col = "x",
+    time_col = "step"
+  )
+)
+
+summary_table
+```
+
+## Interpretation of metrics
+
+The metrics summarize variation and change in the selected variable, here the `x` position.
+
+This is useful, but it is incomplete. Agent-based behavior may also involve:
+
+- changes in `y` position;
+- distance among agents;
+- clustering;
+- group spread;
+- alignment of movement;
+- individual variation;
+- collective direction.
+
+Therefore, metrics should be interpreted as summaries, not complete explanations.
+
+## Suggested exercises
+
+Try modifying the model settings.
+
+```{r agents-exercise}
+experiment <- simulate_agent_interactions(
+  n_agents = 80,
+  steps = 100,
+  interaction_radius = 0.20,
+  alignment = 0.10,
+  seed = 12
+)
+
+experiment_center <- aggregate(
+  cbind(x, y) ~ step,
+  data = experiment,
+  FUN = mean
+)
+
+plot_emergence_sim(
+  experiment_center,
+  x = "step",
+  y = "x",
+  type = "line"
+)
+```
+
+Questions to consider:
+
+- What happens when `n_agents` increases?
+- What happens when `interaction_radius` is very small?
+- What happens when `interaction_radius` is large?
+- What happens when `alignment` is close to zero?
+- What happens when `alignment` is stronger?
+- Do the metrics match what you see in the plots?
+- What does the group center miss?
+
+## Responsible interpretation
+
+This model is a simplified educational model of agent interaction. It should not be interpreted as a full model of real organisms, social systems, cognition, or collective intelligence.
+
+It is better to say:
+
+> The simulation illustrates how local interactions can produce group-level patterns.
+
+than:
+
+> The simulation fully explains animal movement or social behavior.
+
+It is better to say:
+
+> The model shows how interaction radius and alignment affect simulated group movement.
+
+than:
+
+> The model proves how real collective behavior works.
+
+## Key takeaway
+
+`simulate_agent_interactions()` helps users explore how individual agents following local rules can produce group-level dynamics.
+
+The most important lesson is that no central controller is required. Collective patterns can arise through repeated local interactions, movement, alignment, and randomness.
+
+## References

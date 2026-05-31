@@ -1,0 +1,35 @@
+Package: emergenceModelR
+Title: Educational Simulations for Emergence and Complexity
+Version: 0.1.0
+Authors@R: 
+    person(
+        given = "Noushin",
+        family = "Nabavi",
+        role = c("aut", "cre"),
+        email = "NoushinN@users.noreply.github.com"
+    )
+Description: Provides simplified educational simulations for exploring emergence,
+    self-organization, complexity, cellular automata, agent interactions, network
+    growth, and information-based metrics. The package is intended for teaching,
+    science communication, conceptual exploration, and portfolio development. It
+    does not claim to model biological life, consciousness, intelligence, or real
+    complex systems in full detail.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Depends: 
+    R (>= 4.3.0)
+Imports:
+    ggplot2,
+    stats,
+    utils,
+    rlang
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+URL: https://github.com/NoushinN/emergenceModelR, https://noushinn.github.io/emergenceModelR/
+BugReports: https://github.com/NoushinN/emergenceModelR/issues
+Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0

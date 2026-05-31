@@ -1,0 +1,367 @@
+---
+title: "Networks and Emergence"
+output: rmarkdown::html_vignette
+bibliography: references.bib
+vignette: >
+  %\VignetteIndexEntry{Networks and Emergence}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 4
+)
+```
+
+```{r load-package}
+library(emergenceModelR)
+```
+
+## Purpose
+
+This article explains how networks support emergent structure. Many complex systems can be described as networks: cells, ecosystems, brains, social systems, transportation systems, communication systems, and the internet [@barabasi2016network].
+
+The central idea is that emergence depends not only on the properties of individual parts, but also on the relationships among those parts. A system’s structure can shape how information, energy, influence, resources, disease, or activation move through it.
+
+The guiding question is:
+
+> How can simple local rules for forming connections generate large-scale network structure?
+
+## Why networks matter
+
+A network is made of **nodes** and **edges**. Nodes represent parts of a system. Edges represent relationships, interactions, or pathways between them.
+
+In different contexts, nodes and edges can mean different things.
+
+| System | Nodes | Edges |
+|---|---|---|
+| Social system | People | Friendships, communication, influence |
+| Brain network | Neurons or regions | Functional or structural connections |
+| Ecosystem | Species | Feeding or dependency relationships |
+| Transportation system | Cities or stations | Roads, flights, rail links |
+| Molecular system | Molecules | Reactions or binding relations |
+| Internet | Webpages or servers | Hyperlinks or data connections |
+
+The same set of nodes can behave very differently depending on how they are connected. A highly centralized network behaves differently from a decentralized network. A sparse network behaves differently from a dense network. A network with hubs behaves differently from a network in which all nodes have similar numbers of connections.
+
+This is why network structure is central to emergence.
+
+## Networks as relational systems
+
+Network thinking shifts attention from isolated components to relationships. In many systems, the most important question is not simply:
+
+> What are the parts?
+
+but:
+
+> How are the parts connected?
+
+For example, a social group is not defined only by the individuals in it. It is also defined by who communicates with whom, who influences whom, and how information spreads. Similarly, a biological system is not only a list of molecules or cells. Its behavior depends on interaction pathways, feedback loops, and regulatory structure.
+
+Emergent network behavior often arises because local connections create global organization.
+
+## Local rules and global topology
+
+A network may develop through simple local rules. For example:
+
+- new nodes may connect randomly;
+- new nodes may prefer already well-connected nodes;
+- nodes may connect to nearby neighbors;
+- nodes may form clusters;
+- weak links may connect distant parts of the system.
+
+These local rules can produce very different global network structures. This is the core network lesson of emergence: large-scale topology can arise without central planning.
+
+In `emergenceModelR`, this idea is represented by `simulate_network_growth()`.
+
+## Preferential attachment
+
+Preferential attachment is the idea that new nodes are more likely to connect to nodes that are already well connected. This is sometimes summarized as “the rich get richer” [@barabasi1999emergence; @barabasi2016network].
+
+The rule is local and simple: when a new node enters the network, it is more likely to attach to existing nodes with high degree. Over time, this can produce hubs: nodes with many more connections than average.
+
+This process is important because it shows how inequality in network structure can emerge from repeated local attachment decisions. No central planner needs to create the hub. The hub emerges from the growth process.
+
+## Relation to the package
+
+The function `simulate_network_growth()` models network formation through repeated node addition and attachment.
+
+| Theoretical concept | Package representation |
+|---|---|
+| Network component | Node |
+| Relationship or pathway | Edge |
+| Number of connections | Degree |
+| New system element | Newly added node |
+| Local attachment rule | `mode` |
+| Preferential attachment | `mode = "preferential"` |
+| Random attachment | `mode = "random"` |
+| Emergent hub | High-degree node |
+
+The function is designed for education. It does not model every detail of real biological, social, or technological networks, but it helps learners see how global structure can arise from local attachment rules.
+
+## Preferential attachment simulation
+
+```{r theory-network-example}
+net <- simulate_network_growth(
+  n_nodes = 60,
+  m = 2,
+  mode = "preferential",
+  seed = 4
+)
+
+final_degrees <- subset(
+  net$degree_history,
+  step == max(step)
+)
+
+summary(final_degrees$degree)
+```
+
+## Interpreting the preferential network
+
+The degree summary shows how many connections nodes have at the end of the simulation. In a preferential attachment process, a small number of nodes may accumulate many connections, while many nodes remain weakly connected.
+
+This uneven structure is not imposed directly. It emerges because early or well-connected nodes have a higher probability of receiving additional links.
+
+In theoretical terms, preferential attachment demonstrates how local advantage can become amplified over time.
+
+## Random comparison
+
+To understand why preferential attachment matters, compare it with random attachment. In a random network, new nodes connect without favoring already well-connected nodes.
+
+```{r theory-network-random}
+random_net <- simulate_network_growth(
+  n_nodes = 60,
+  m = 2,
+  mode = "random",
+  seed = 4
+)
+
+final_random <- subset(
+  random_net$degree_history,
+  step == max(step)
+)
+
+summary(final_random$degree)
+```
+
+## Interpretation of the comparison
+
+The preferential and random models may contain the same number of nodes and similar numbers of edges, but their degree distributions can differ.
+
+A preferential network is more likely to produce hubs. A random network is more likely to distribute connections more evenly. This shows that network emergence depends not only on the number of parts, but also on the rule by which relationships form.
+
+The comparison illustrates a broader principle:
+
+> Connectivity rules shape system-level structure.
+
+## Degree distribution
+
+A degree distribution describes how many connections each node has. It is one of the simplest ways to summarize network structure.
+
+```{r degree-comparison}
+pref_degrees <- final_degrees$degree
+rand_degrees <- final_random$degree
+
+summary_table <- data.frame(
+  model = c("preferential", "random"),
+  mean_degree = c(mean(pref_degrees), mean(rand_degrees)),
+  max_degree = c(max(pref_degrees), max(rand_degrees)),
+  sd_degree = c(stats::sd(pref_degrees), stats::sd(rand_degrees))
+)
+
+summary_table
+```
+
+## Interpreting degree distributions
+
+The mean degree may be similar across two networks, but the maximum degree and standard deviation can differ substantially.
+
+This matters because averages can hide structure. Two systems may have the same average number of connections but very different patterns of concentration, inequality, vulnerability, or flow.
+
+In emergent systems, distribution often matters more than average.
+
+## Hubs as emergent structures
+
+A hub is a node with many connections. Hubs can be important because they influence flow through the network.
+
+Depending on the system, hubs may:
+
+- accelerate information spread;
+- increase coordination;
+- concentrate influence;
+- create vulnerability;
+- support rapid transmission;
+- make the system robust to random failure but fragile to targeted attack.
+
+In many real networks, hubs are not manually designed. They arise from growth history, attachment rules, and feedback. Preferential attachment is one mechanism that can generate hubs.
+
+## Flow and emergence
+
+Network structure matters because it shapes flow. What flows depends on the system:
+
+- information in communication networks;
+- activation in neural systems;
+- nutrients or energy in ecological systems;
+- people or goods in transportation systems;
+- influence in social systems;
+- disease in epidemiological systems.
+
+Emergence often depends on these flows. A network can produce collective behavior because local interactions allow effects to propagate beyond their source.
+
+This is why networks are relevant to life, cognition, society, and technology.
+
+## Network growth as historical process
+
+Networks are historical systems. Their final structure depends on the order in which nodes appear and connect.
+
+In preferential attachment, early nodes may gain an advantage because they have more opportunities to receive links. This is sometimes called cumulative advantage. Small initial differences can become amplified over time.
+
+This is an important lesson for emergence:
+
+> System-level structure can depend on history.
+
+The same local rule can generate different outcomes under different initial conditions or random seeds.
+
+## Seed experiment
+
+The following example shows that the same network rule can produce different specific networks depending on the random seed.
+
+```{r network-seed-experiment}
+net_a <- simulate_network_growth(
+  n_nodes = 60,
+  m = 2,
+  mode = "preferential",
+  seed = 1
+)
+
+net_b <- simulate_network_growth(
+  n_nodes = 60,
+  m = 2,
+  mode = "preferential",
+  seed = 10
+)
+
+final_a <- subset(net_a$degree_history, step == max(step))
+final_b <- subset(net_b$degree_history, step == max(step))
+
+c(
+  max_degree_seed_1 = max(final_a$degree),
+  max_degree_seed_10 = max(final_b$degree)
+)
+```
+
+## Interpretation of the seed experiment
+
+Both simulations use the same rule, but the details of the final network may differ. This illustrates the role of contingency in emergent systems.
+
+Emergent systems are often rule-governed but not always exactly predictable in their details. General patterns may be expected, while specific outcomes depend on history and variation.
+
+## Network emergence and self-organization
+
+Network emergence is closely related to self-organization. In both cases, system-level order arises without central control.
+
+However, network emergence specifically emphasizes relational structure. The question is not only how states change over time, but how the pattern of connections itself develops.
+
+This makes networks especially useful for studying systems in which relationships matter as much as components.
+
+## Relation to other package functions
+
+| Function | Relationship to network emergence |
+|---|---|
+| `simulate_network_growth()` | Models how local attachment rules generate network structure |
+| `simulate_agent_interactions()` | Models interactions among agents that may be represented as networks |
+| `simulate_self_organization()` | Models spatial pattern formation through local feedback |
+| `measure_emergence()` | Provides summary metrics for comparing emergent outcomes |
+| `plot_emergence_sim()` | Visualizes model outputs |
+
+Together, these functions help learners compare different forms of emergence: spatial, agent-based, and network-based.
+
+## Broader significance
+
+Network emergence is important because many real systems are not well understood as isolated parts. Their behavior depends on connections, pathways, and relational structure.
+
+Examples include:
+
+- how ideas spread through societies;
+- how neural activity coordinates across brain regions;
+- how species interact in ecosystems;
+- how disease spreads through populations;
+- how technologies become dominant;
+- how metabolic or molecular networks organize.
+
+In each case, emergent behavior depends on how the system is connected.
+
+## What the model captures
+
+The model captures several important ideas:
+
+- networks can grow through local rules;
+- preferential attachment can generate hubs;
+- global structure can emerge without central planning;
+- network history matters;
+- degree distributions reveal structural differences;
+- connectivity shapes flow and influence.
+
+These features make the model useful for teaching emergence in relational systems.
+
+## What the model does not capture
+
+The model is intentionally simplified. It does not include:
+
+- weighted edges;
+- directed edges;
+- changing node behavior;
+- node deletion;
+- adaptive rewiring;
+- spatial constraints;
+- real social, biological, or technological mechanisms;
+- detailed flow dynamics.
+
+It is a conceptual model for network growth, not a full model of real-world networks.
+
+## Responsible interpretation
+
+It is better to say:
+
+> The simulation illustrates how hubs can emerge from preferential attachment.
+
+than:
+
+> The simulation fully explains real social or biological networks.
+
+It is better to say:
+
+> The model shows how local connection rules can shape global topology.
+
+than:
+
+> The model proves that all networks form this way.
+
+Careful interpretation matters because real networks often form through multiple mechanisms, not only preferential attachment.
+
+## Educational use
+
+This chapter can support several classroom or self-study questions:
+
+- How does preferential attachment differ from random attachment?
+- Why do hubs matter?
+- Can two networks have the same average degree but different structures?
+- How does network history influence final topology?
+- How does connectivity shape flow?
+- Why are networks important for emergence?
+- What would need to be added to make the model more realistic?
+
+These questions help learners understand networks as dynamic systems of relationships rather than static diagrams.
+
+## Key takeaway
+
+Networks support emergence because relationships shape system behavior. The same components can produce different outcomes depending on how they are connected.
+
+`simulate_network_growth()` provides a simplified model of this principle. It shows how local attachment rules can generate global network structure, including hubs and unequal degree distributions, without central control.
+
+## References

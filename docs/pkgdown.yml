@@ -1,0 +1,24 @@
+pandoc: '3.2'
+pkgdown: 2.2.0
+pkgdown_sha: ~
+articles:
+  agent-based-emergence: agent-based-emergence.html
+  agent-interactions-tutorial: agent-interactions-tutorial.html
+  cellular-automata-theory: cellular-automata-theory.html
+  cellular-automata-tutorial: cellular-automata-tutorial.html
+  comparing-models-tutorial: comparing-models-tutorial.html
+  complexity-and-information: complexity-and-information.html
+  emergence-life-consciousness: emergence-life-consciousness.html
+  getting-started: getting-started.html
+  limitations-responsible-use: limitations-responsible-use.html
+  measuring-emergence-theory: measuring-emergence-theory.html
+  measuring-emergence-tutorial: measuring-emergence-tutorial.html
+  network-growth-tutorial: network-growth-tutorial.html
+  networks-and-emergence: networks-and-emergence.html
+  self-organization-theory: self-organization-theory.html
+  self-organization-tutorial: self-organization-tutorial.html
+  what-is-emergence: what-is-emergence.html
+last_built: 2026-05-31T21:56Z
+urls:
+  reference: https://noushinn.github.io/emergenceModelR/reference
+  article: https://noushinn.github.io/emergenceModelR/articles

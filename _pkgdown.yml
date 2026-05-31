@@ -1,0 +1,102 @@
+url: https://noushinn.github.io/emergenceModelR/
+
+template:
+  bootstrap: 5
+
+extra_css: pkgdown/extra.css
+
+navbar:
+  structure:
+    left:  [intro, reference, core_tutorials, theory_guide]
+    right: [github]
+
+  components:
+    core_tutorials:
+      text: "Core Tutorials"
+      menu:
+      - text: "Getting Started"
+        href: articles/getting-started.html
+      - text: "Cellular Automata"
+        href: articles/cellular-automata-tutorial.html
+      - text: "Self-Organization"
+        href: articles/self-organization-tutorial.html
+      - text: "Agent Interactions"
+        href: articles/agent-interactions-tutorial.html
+      - text: "Network Growth"
+        href: articles/network-growth-tutorial.html
+      - text: "Measuring Emergence"
+        href: articles/measuring-emergence-tutorial.html
+      - text: "Comparing Models"
+        href: articles/comparing-models-tutorial.html
+
+    theory_guide:
+      text: "Theory Guide"
+      menu:
+      - text: "What Is Emergence?"
+        href: articles/what-is-emergence.html
+      - text: "Self-Organization"
+        href: articles/self-organization-theory.html
+      - text: "Complexity and Information"
+        href: articles/complexity-and-information.html
+      - text: "Cellular Automata"
+        href: articles/cellular-automata-theory.html
+      - text: "Agent-Based Emergence"
+        href: articles/agent-based-emergence.html
+      - text: "Networks and Emergence"
+        href: articles/networks-and-emergence.html
+      - text: "Measuring Emergence"
+        href: articles/measuring-emergence-theory.html
+      - text: "Emergence, Life, and Consciousness"
+        href: articles/emergence-life-consciousness.html
+      - text: "Limitations and Responsible Use"
+        href: articles/limitations-responsible-use.html
+
+    github:
+      icon: fab fa-github
+      href: https://github.com/NoushinN/emergenceModelR
+      aria-label: GitHub
+
+home:
+  title: emergenceModelR
+  description: Educational simulations for emergence, self-organization, and complexity.
+  links:
+  - text: Source code
+    href: https://github.com/NoushinN/emergenceModelR
+  - text: Report an issue
+    href: https://github.com/NoushinN/emergenceModelR/issues
+
+articles:
+- title: Core Tutorials
+  contents:
+  - getting-started
+  - cellular-automata-tutorial
+  - self-organization-tutorial
+  - agent-interactions-tutorial
+  - network-growth-tutorial
+  - measuring-emergence-tutorial
+  - comparing-models-tutorial
+
+- title: Theory Guide
+  contents:
+  - what-is-emergence
+  - self-organization-theory
+  - complexity-and-information
+  - cellular-automata-theory
+  - agent-based-emergence
+  - networks-and-emergence
+  - measuring-emergence-theory
+  - emergence-life-consciousness
+  - limitations-responsible-use
+
+reference:
+- title: Simulations
+  contents:
+  - simulate_cellular_automata
+  - simulate_self_organization
+  - simulate_agent_interactions
+  - simulate_network_growth
+
+- title: Measurement and visualization
+  contents:
+  - measure_emergence
+  - plot_emergence_sim
