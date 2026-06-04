@@ -451,5 +451,3 @@ Preferential attachment can generate hubs and unequal degree
 distributions without central planning. Random attachment usually
 produces a different pattern. By comparing these models, learners can
 see how network emergence depends on the rules that form connections.
-
-## References

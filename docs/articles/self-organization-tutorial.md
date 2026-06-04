@@ -440,5 +440,3 @@ The most important lesson is that system-level structure can arise from
 repeated local updating. By changing diffusion and feedback, learners
 can observe how different parameter settings affect the resulting
 pattern.
-
-## References

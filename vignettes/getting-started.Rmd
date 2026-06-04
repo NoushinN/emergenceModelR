@@ -239,4 +239,3 @@ The purpose of the package is to help learners understand how local rules and in
 
 `emergenceModelR` provides a compact educational toolkit for exploring emergence. It helps users move from simple rules to visible patterns, from local interaction to system-level organization, and from code examples to theoretical interpretation.
 
-## References

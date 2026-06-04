@@ -443,4 +443,3 @@ Careful interpretation is important because emergence is a theoretical concept, 
 
 The function should be used as an interpretive aid. It works best when combined with visualization, model understanding, and careful theoretical explanation.
 
-## References

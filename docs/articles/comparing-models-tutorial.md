@@ -755,5 +755,3 @@ local dynamics generate different forms of system-level pattern.
 The most important lesson is not that one model is “more emergent” than
 another. The lesson is that different local mechanisms can produce
 different kinds of system-level organization.
-
-## References

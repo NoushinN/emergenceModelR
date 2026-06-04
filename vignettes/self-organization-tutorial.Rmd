@@ -373,4 +373,3 @@ The model helps explain a concept. It does not replace detailed scientific model
 
 The most important lesson is that system-level structure can arise from repeated local updating. By changing diffusion and feedback, learners can observe how different parameter settings affect the resulting pattern.
 
-## References

@@ -1,5 +1,8 @@
 # emergenceModelR
 
+![emergenceModelR hex
+sticker](reference/figures/emergenceModelR_hex.png)
+
 [![R](https://img.shields.io/badge/R-4.3%2B-blue)](https://www.r-project.org/)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://noushinn.github.io/emergenceModelR/LICENSE)

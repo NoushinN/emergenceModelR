@@ -281,5 +281,3 @@ rules and interactions can generate system-level organization.
 emergence. It helps users move from simple rules to visible patterns,
 from local interaction to system-level organization, and from code
 examples to theoretical interpretation.
-
-## References

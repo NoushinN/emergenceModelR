@@ -335,4 +335,3 @@ Rule 30 shows how deterministic rules can produce irregular-looking structure. R
 
 > Global structure can arise from repeated local updating without central control.
 
-## References

@@ -400,5 +400,3 @@ lessons of emergence:
 
 > Global structure can arise from repeated local updating without
 > central control.
-
-## References

@@ -1,3 +1,5 @@
+<img src="man/figures/emergenceModelR_hex.png" align="right" width="80" alt="emergenceModelR hex sticker" />
+
 # emergenceModelR
 
 [![R](https://img.shields.io/badge/R-4.3%2B-blue)](https://www.r-project.org/)

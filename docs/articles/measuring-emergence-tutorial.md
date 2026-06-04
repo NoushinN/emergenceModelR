@@ -556,5 +556,3 @@ describing diversity, variability, and temporal change.
 The function should be used as an interpretive aid. It works best when
 combined with visualization, model understanding, and careful
 theoretical explanation.
-
-## References

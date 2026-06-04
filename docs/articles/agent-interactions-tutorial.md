@@ -585,5 +585,3 @@ produce group-level dynamics.
 The most important lesson is that no central controller is required.
 Collective patterns can arise through repeated local interactions,
 movement, alignment, and randomness.
-
-## References
