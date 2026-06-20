@@ -5,6 +5,9 @@
 [![R](https://img.shields.io/badge/R-4.3%2B-blue)](https://www.r-project.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-pkgdown-blue)](https://noushinn.github.io/emergenceModelR/)
+<!-- badges: start -->
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20766770.svg)](https://doi.org/10.5281/zenodo.20766770)
+<!-- badges: end -->
 [![GitHub stars](https://img.shields.io/github/stars/NoushinN/emergenceModelR?style=social)](https://github.com/NoushinN/emergenceModelR)
 
 **emergenceModelR** is an educational R package for simulating, visualizing, and explaining simplified models of emergence, self-organization, complexity, cellular automata, agent interactions, and network growth.
@@ -218,3 +221,10 @@ For example:
 ## License
 
 MIT License
+
+## Citation
+
+If referencing this project, please cite: 
+
+Nabavi, N. *emergenceModelR: An Educational R Package for Simulating Simplified Models of Emergence and Complexity
+[[DOI](https://doi.org/10.5281/zenodo.20766770)

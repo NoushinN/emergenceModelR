@@ -7,6 +7,7 @@ sticker](reference/figures/emergenceModelR_hex.png)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://noushinn.github.io/emergenceModelR/LICENSE)
 [![Website](https://img.shields.io/badge/Website-pkgdown-blue)](https://noushinn.github.io/emergenceModelR/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20766770.svg)](https://doi.org/10.5281/zenodo.20766770)
 [![GitHub
 stars](https://img.shields.io/github/stars/NoushinN/emergenceModelR?style=social)](https://github.com/NoushinN/emergenceModelR)
 
@@ -242,3 +243,11 @@ For example:
 ## License
 
 MIT License
+
+## Citation
+
+If referencing this project, please cite:
+
+Nabavi, N. \*emergenceModelR: An Educational R Package for Simulating
+Simplified Models of Emergence and Complexity
+\[[DOI](https://doi.org/10.5281/zenodo.20766770)
