@@ -248,6 +248,6 @@ MIT License
 
 If referencing this project, please cite:
 
-Nabavi, N. \*emergenceModelR: An Educational R Package for Simulating
-Simplified Models of Emergence and Complexity
+Nabavi, N. *emergenceModelR: An Educational R Package for Simulating
+Simplified Models of Emergence and Complexity*.
 \[[DOI](https://doi.org/10.5281/zenodo.20766770)
